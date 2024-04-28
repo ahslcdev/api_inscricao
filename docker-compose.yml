@@ -1,0 +1,77 @@
+version: '3'
+services:
+ broker-rabbitmq:
+   container_name: "rabbitmq"
+   image: "rabbitmq:3.9.13-management"
+   ports:
+     - "5673:5672"
+   environment:
+     - RABBITMQ_DEFAULT_USER=$RABBITMQ_DEFAULT_USER
+     - RABBITMQ_DEFAULT_PASS=$RABBITMQ_DEFAULT_PASS
+     - DATABASE_PATH=$DATABASE_PATH
+
+ age_api:
+   build: .
+   container_name: "age_api"
+   command: uvicorn app.age_api.main:app --host 0.0.0.0 --reload
+   env_file:
+     - ./.env
+   ports:
+    - "8000:8000"
+   depends_on:
+     - broker-rabbitmq
+   volumes:
+     - .:/flask-deploy
+   environment:
+     - CELERY_BROKER_URL=$CELERY_BROKER_URL
+     - CELERY_RESULT_BACKEND=$CELERY_RESULT_BACKEND
+     - DATABASE_PATH=$DATABASE_PATH
+
+ enrollment_api:
+   build: .
+   container_name: "enrollment_api"
+   command: uvicorn app.enrollment_api.main:app --host 0.0.0.0 --reload --port=8080
+   ports:
+    - "8080:8080"
+   depends_on:
+     - broker-rabbitmq
+   volumes:
+     - .:/flask-deploy
+   environment:
+     - CELERY_BROKER_URL=$CELERY_BROKER_URL
+     - CELERY_RESULT_BACKEND=$CELERY_RESULT_BACKEND
+     - DATABASE_PATH=$DATABASE_PATH
+
+ enrollment_worker:
+   build: .
+   container_name: "enrollment_worker"
+   command: celery -A app.celery.celery worker --loglevel=info -Q enrollment-queue -c 1
+   depends_on:
+     - broker-rabbitmq
+   volumes:
+     - .:/flask-deploy
+   environment:   
+     - CELERY_BROKER_URL=$CELERY_BROKER_URL
+     - CELERY_RESULT_BACKEND=$CELERY_RESULT_BACKEND
+     - DATABASE_PATH=$DATABASE_PATH
+ redis:
+    image: redis
+    ports:
+      - "6379:6379"
+
+#  celery-flower:
+#    image: gregsi/latest-celery-flower-docker:latest
+#    environment:
+#      - AMQP_USERNAME=rabbit_user
+#      - AMQP_PASSWORD=rabbit_password
+#      - AMQP_ADMIN_USERNAME=rabbit_user
+#      - AMQP_ADMIN_PASSWORD=rabbit_password
+#      - AMQP_HOST=broker-rabbitmq
+#      - AMQP_PORT=5672
+#      - AMQP_ADMIN_HOST=broker-rabbitmq
+#      - AMQP_ADMIN_PORT=15672
+#      - FLOWER_BASIC_AUTH=user:test
+#    ports:
+#      - "5556:5555"
+#    depends_on:
+#      - broker-rabbitmq
