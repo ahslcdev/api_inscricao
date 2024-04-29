@@ -20,6 +20,10 @@ from app.age_api.service import AgeGroupService
     }
 )
 async def list_age_groups(Verifcation = Depends(ConfigAuth.check_credentials)):
+    """
+    Este route é responsável por realizar a listagem dos grupos de idade
+    cadastrados no banco de dados.
+    """
     try:
         ages = AgeGroupService().get_instances()
     except Exception as e:
