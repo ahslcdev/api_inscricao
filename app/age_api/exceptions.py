@@ -4,3 +4,7 @@ class AlreadyRegisteredAgeException(Exception):
 
 class InvalidAgeException(Exception):
     pass
+
+
+class AgeGroupNotFound(Exception):
+    pass
