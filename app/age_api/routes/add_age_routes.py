@@ -12,13 +12,13 @@ from app.age_api.utils import validate_ages
 @router.post(
     "/",
     response_model=AgeGroup,
-    responses={
-    status.HTTP_400_BAD_REQUEST:{
-        "model":ErrorMessageBadRequest
-    },
-    status.HTTP_401_UNAUTHORIZED:{
-        "model":ErrorMessageAgeGroupNotAuth
-    }
+        responses={
+        status.HTTP_400_BAD_REQUEST:{
+            "model":ErrorMessageBadRequest
+        },
+        status.HTTP_401_UNAUTHORIZED:{
+            "model":ErrorMessageAgeGroupNotAuth
+        }
     }
 )
 async def add_age_group(age: AgeGroup, 
