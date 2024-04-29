@@ -7,4 +7,4 @@ class ErrorMessageAgeGroupNotAuth(BaseModel):
 
 
 class ErrorMessageBadRequest(BaseModel):
-    detail: str = Field(example='Alto inesperado aconteceu, entre em contato com o suporte.')
+    detail: str = Field(example='Algo inesperado aconteceu, entre em contato com o suporte.')
