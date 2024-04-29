@@ -20,5 +20,5 @@ class EnrollmentService(ServiceMixin):
         return enrollment_id
     
     def get_status_enrollment(self, id: str):
-        status: bool = AsyncResult(id)#.ready()
+        status: bool = AsyncResult(id)
         return status.ready()
