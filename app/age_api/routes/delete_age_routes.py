@@ -1,27 +1,35 @@
-from fastapi import Depends
+from typing import Dict
+from fastapi import Depends, status, HTTPException
 from app.age_api.configs import ConfigAuth
+from app.age_api.error_messages import ErrorMessageAgeGroupNotAuth, ErrorMessageAgeGroupNotFound, ErrorMessageBadRequest
+from app.age_api.exceptions import AgeGroupNotFound
 from app.age_api.routes import router
-from app.age_api.schemas import AgeGroup
-from pydantic import BaseModel, Field
-from tinydb import TinyDB, Query
 
 from app.age_api.service import AgeGroupService
 
-class ErrorMessageAgeGroupNotFound(BaseModel):
-    detail: str = Field(example='Grupo de idade não encontrado.')
-
-
-db = TinyDB('app/db.json')
-
 @router.delete(
-        "/{id}/",
-        # response_model=AgeGroup,
-        # status_code=200,
-        # responses={
-        #     404:{
-        #         "model": ErrorMessageAgeGroupNotFound,
-        #     },
-        # }
+    "/{id}/",
+    responses={
+        status.HTTP_400_BAD_REQUEST:{
+            "model":ErrorMessageBadRequest
+        },
+        status.HTTP_401_UNAUTHORIZED:{
+            "model":ErrorMessageAgeGroupNotAuth
+        },
+        status.HTTP_404_NOT_FOUND:{
+            "model":ErrorMessageAgeGroupNotFound
+        },
+        status.HTTP_200_OK:{
+            "content": {
+                "application/json": {
+                    "example": 
+                        {
+                            "message": "Grupo de idade deletado com sucesso.",
+                        }
+                }
+            },
+        }
+    }
 )
 async def delete_age_group(id: int,
                            Verifcation = Depends(ConfigAuth.check_credentials)):
@@ -30,5 +38,20 @@ async def delete_age_group(id: int,
 
     :params id: ID do objeto que deseja deletar.
     """
-    AgeGroupService().delete_by_id(id)
-    return {"message": "Endpoint from API 2"}
+    try:
+        service = AgeGroupService()
+        age_group = service.get_by_id(id)
+        if not age_group:
+            raise AgeGroupNotFound('Grupo de idade não encontrado.')
+        service.delete_by_id(id)
+    except AgeGroupNotFound as e:
+        raise HTTPException(
+            status.HTTP_404_NOT_FOUND,
+            str(e)
+        )
+    except Exception as e:
+        raise HTTPException(
+            status.HTTP_400_BAD_REQUEST,
+            str(e)
+        )
+    return {"message":"Grupo de idade deletado com sucesso."}
