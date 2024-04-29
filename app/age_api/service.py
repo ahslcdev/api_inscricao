@@ -27,7 +27,7 @@ class AgeGroupService(ServiceMixin):
 
     def delete_by_id(self,  id: int):
         table = self.get_table()
-        table.remove(doc_id=id)
+        table.remove(doc_ids=[id])
 
     def get_instances(self):
         table = self.get_table()
