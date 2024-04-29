@@ -16,18 +16,18 @@ class AgeGroupService(ServiceMixin):
     
     def get_by_id(self, id: int):
         table = self.get_table()
-        age: dict = table.get(doc_ids=[id])
+        age: dict = table.get(doc_id=id)
         return age
 
     def create_instance(self, age: AgeGroup):
         table = self.get_table()
         age_dict = age.dict()
         age_id = table.insert(age_dict)
-        return age_id
+        return self.get_by_id(age_id)
 
     def delete_by_id(self,  id: int):
         table = self.get_table()
-        table.remove(doc_ids=[id])
+        table.remove(doc_id=id)
 
     def get_instances(self):
         table = self.get_table()
