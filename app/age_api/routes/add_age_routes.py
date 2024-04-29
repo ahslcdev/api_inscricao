@@ -9,16 +9,18 @@ from app.age_api.schemas import AgeGroup
 from app.age_api.service import AgeGroupService
 from app.age_api.utils import validate_ages
 
-@router.post("/",
-             response_model=AgeGroup,
-             responses={
-                status.HTTP_400_BAD_REQUEST:{
-                    "model":ErrorMessageBadRequest
-                },
-                status.HTTP_401_UNAUTHORIZED:{
-                    "model":ErrorMessageAgeGroupNotAuth
-                }
-             })
+@router.post(
+    "/",
+    response_model=AgeGroup,
+    responses={
+    status.HTTP_400_BAD_REQUEST:{
+        "model":ErrorMessageBadRequest
+    },
+    status.HTTP_401_UNAUTHORIZED:{
+        "model":ErrorMessageAgeGroupNotAuth
+    }
+    }
+)
 async def add_age_group(age: AgeGroup, 
                         Verifcation = Depends(ConfigAuth.check_credentials)):
     """
