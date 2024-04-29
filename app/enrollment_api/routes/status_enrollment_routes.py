@@ -1,19 +1,35 @@
+from fastapi import status, HTTPException
+from app.enrollment_api.error_messages import ErrorMessageBadRequest
 from app.enrollment_api.routes import router
 from app.enrollment_api.service import EnrollmentService
 
-@router.get("/check-status/{id}/")
+@router.get(
+    "/check-status/{id}/",
+    responses={
+        status.HTTP_400_BAD_REQUEST:{
+            "model":ErrorMessageBadRequest
+        },
+        status.HTTP_200_OK:{
+            "content": {
+                "application/json": {
+                    "example": 
+                        {
+                            "message": "Inscrição Aprovada."
+                        }
+                }
+            },
+        }
+    }
+)
 async def check_status(id: str):
     try:
         status = EnrollmentService().get_status_enrollment(id)
+        message = {"message":"Inscrição pendente"}
         if status:
-            return 'Inscrição aprovada'
-        else:
-            return 'Inscrição Pendente'
-        # print(type(enrollment.dict()))
-        # enrollment_dict = enrollment.dict(exclude_unset=True)
-        # task_id = add_enrollment_task.apply_async(queue='enrollment-queue', args=[enrollment_dict]).id
-        # # item_id = db.insert(item_dict)
-        # return task_id
+            message['message'] = 'Inscrição aprovada'
     except Exception as e:
-        print("entro pai")
-        return f"{e}"
+        raise HTTPException(
+            status.HTTP_400_BAD_REQUEST,
+            str(e)
+        )
+    return message
