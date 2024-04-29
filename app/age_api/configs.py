@@ -15,7 +15,7 @@ class ConfigAuth:
         else:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Incorrect email or password",
+                detail="Dados de acesso incorretos.",
                 headers={"WWW-Authenticate": "Basic"},
             )
    
