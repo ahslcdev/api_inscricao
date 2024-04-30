@@ -1,6 +1,5 @@
-from typing import Dict
 from fastapi import Depends, status, HTTPException
-from app.age_api.configs import ConfigAuth
+from app.age_api.dependencies import ConfigAuth
 from app.age_api.error_messages import ErrorMessageAgeGroupNotAuth, ErrorMessageAgeGroupNotFound, ErrorMessageBadRequest
 from app.age_api.exceptions import AgeGroupNotFound
 from app.age_api.routes import router

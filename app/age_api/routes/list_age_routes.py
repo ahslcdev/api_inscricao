@@ -1,6 +1,6 @@
 from typing import List
 from fastapi import Depends, HTTPException, status
-from app.age_api.configs import ConfigAuth
+from app.age_api.dependencies import ConfigAuth
 from app.age_api.error_messages import ErrorMessageAgeGroupNotAuth, ErrorMessageBadRequest
 from app.age_api.routes import router
 
@@ -29,6 +29,6 @@ async def list_age_groups(Verifcation = Depends(ConfigAuth.check_credentials)):
     except Exception as e:
         raise HTTPException(
             status.HTTP_400_BAD_REQUEST,
-            ErrorMessageBadRequest(detail='Alto inesperado aconteceu, entre em contato com o suporte.').detail
+            ErrorMessageBadRequest(detail='Algo inesperado aconteceu, entre em contato com o suporte.').detail
         )
     return ages

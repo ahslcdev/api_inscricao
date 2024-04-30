@@ -7,3 +7,4 @@ class Settings(BaseSettings):
     CELERY_BROKER_URL: str
     CELERY_RESULT_BACKEND: str
     DATABASE_PATH: str
+    DATABASE_TEST_PATH: str

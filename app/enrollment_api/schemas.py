@@ -1,4 +1,4 @@
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, field_validator
 
 from app.age_api.service import AgeGroupService
 from app.enrollment_api.exceptions import InvalidAge, InvalidCPF
@@ -9,13 +9,13 @@ class EnrollmentSchema(BaseModel):
     cpf: str
     age: int
 
-    @validator('cpf')
+    @field_validator('cpf')
     def valid_cpf(cls, value):
         if not validate_cpf(value):
             raise InvalidCPF("CPF inválido")
         return value
     
-    @validator('age')
+    @field_validator('age')
     def valid_age(cls, value):
         if value < 0:
             raise InvalidAge("Idade não pode ser menor que 0")

@@ -21,7 +21,7 @@ class AgeGroupService(ServiceMixin):
 
     def create_instance(self, age: AgeGroup):
         table = self.get_table()
-        age_dict = age.dict()
+        age_dict = age.model_dump()
         age_id = table.insert(age_dict)
         return self.get_by_id(age_id)
 

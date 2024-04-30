@@ -4,7 +4,10 @@ from app.configs.settings import Settings
 from app.singleton import SingletonMeta
 
 class TinyDBInstance(metaclass=SingletonMeta):
-    def __init__(self, name_db: str = Settings().DATABASE_PATH) -> None:
+    def __init__(
+            self,
+            name_db: str = Settings().DATABASE_PATH,
+        ) -> None:
         self.__db = TinyDB(name_db)
 
     @property
