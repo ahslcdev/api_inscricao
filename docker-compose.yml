@@ -3,8 +3,8 @@ services:
  broker-rabbitmq:
    container_name: "rabbitmq"
    image: "rabbitmq:3.9.13-management"
-   ports:
-     - "5673:5672"
+  #  ports:
+  #    - "15672:15673"
    environment:
      - RABBITMQ_DEFAULT_USER=$RABBITMQ_DEFAULT_USER
      - RABBITMQ_DEFAULT_PASS=$RABBITMQ_DEFAULT_PASS
@@ -26,7 +26,6 @@ services:
      - CELERY_BROKER_URL=$CELERY_BROKER_URL
      - CELERY_RESULT_BACKEND=$CELERY_RESULT_BACKEND
      - DATABASE_PATH=$DATABASE_PATH
-     - DATABASE_TEST_PATH$DATABASE_TEST_PATH
 
  enrollment_api:
    build: .
@@ -42,7 +41,6 @@ services:
      - CELERY_BROKER_URL=$CELERY_BROKER_URL
      - CELERY_RESULT_BACKEND=$CELERY_RESULT_BACKEND
      - DATABASE_PATH=$DATABASE_PATH
-     - DATABASE_TEST_PATH=$DATABASE_TEST_PATH
 
  enrollment_worker:
    build: .
@@ -56,25 +54,24 @@ services:
      - CELERY_BROKER_URL=$CELERY_BROKER_URL
      - CELERY_RESULT_BACKEND=$CELERY_RESULT_BACKEND
      - DATABASE_PATH=$DATABASE_PATH
-     = DATABASE_TEST_PATH=$DATABASE_TEST_PATH
  redis:
     image: redis
     ports:
       - "6379:6379"
 
-#  celery-flower:
-#    image: gregsi/latest-celery-flower-docker:latest
-#    environment:
-#      - AMQP_USERNAME=rabbit_user
-#      - AMQP_PASSWORD=rabbit_password
-#      - AMQP_ADMIN_USERNAME=rabbit_user
-#      - AMQP_ADMIN_PASSWORD=rabbit_password
-#      - AMQP_HOST=broker-rabbitmq
-#      - AMQP_PORT=5672
-#      - AMQP_ADMIN_HOST=broker-rabbitmq
-#      - AMQP_ADMIN_PORT=15672
-#      - FLOWER_BASIC_AUTH=user:test
-#    ports:
-#      - "5556:5555"
-#    depends_on:
-#      - broker-rabbitmq
+ celery-flower:
+   image: gregsi/latest-celery-flower-docker:latest
+   environment:
+     - AMQP_USERNAME=rabbit_user
+     - AMQP_PASSWORD=rabbit_password
+     - AMQP_ADMIN_USERNAME=rabbit_user
+     - AMQP_ADMIN_PASSWORD=rabbit_password
+     - AMQP_HOST=broker-rabbitmq
+     - AMQP_PORT=5672
+     - AMQP_ADMIN_HOST=broker-rabbitmq
+     - AMQP_ADMIN_PORT=15672
+     - FLOWER_BASIC_AUTH=user:test
+   ports:
+     - "5556:5555"
+   depends_on:
+     - broker-rabbitmq
