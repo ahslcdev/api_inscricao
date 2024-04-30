@@ -13,7 +13,7 @@ services:
  age_api:
    build: .
    container_name: "age_api"
-   command: uvicorn app.age_api.main:app --host 0.0.0.0 --reload
+   command: uvicorn app.apis.age_api.main:app --host 0.0.0.0 --reload
    env_file:
      - ./.env
    ports:
@@ -30,7 +30,7 @@ services:
  enrollment_api:
    build: .
    container_name: "enrollment_api"
-   command: uvicorn app.enrollment_api.main:app --host 0.0.0.0 --reload --port=8080
+   command: uvicorn app.apis.enrollment_api.main:app --host 0.0.0.0 --reload --port=8080
    ports:
     - "8080:8080"
    depends_on:
@@ -55,11 +55,13 @@ services:
      - CELERY_RESULT_BACKEND=$CELERY_RESULT_BACKEND
      - DATABASE_PATH=$DATABASE_PATH
  redis:
+    container_name: "redis"
     image: redis
     ports:
       - "6379:6379"
 
  celery-flower:
+   container_name: "flower"
    image: gregsi/latest-celery-flower-docker:latest
    environment:
      - AMQP_USERNAME=rabbit_user

@@ -10,4 +10,4 @@ celery = Celery(
     backend=settings.CELERY_RESULT_BACKEND
 )
 
-celery.autodiscover_tasks(['app.celery.enrollment_tasks'])
+celery.autodiscover_tasks(['app.apis.enrollment_api.tasks'])
