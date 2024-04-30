@@ -1,0 +1,6 @@
+[report]
+fail_under = 100
+skip_covered = True
+[run]
+omit =
+  app/tests/*
