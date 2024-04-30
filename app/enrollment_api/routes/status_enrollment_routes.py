@@ -23,9 +23,9 @@ from app.enrollment_api.service import EnrollmentService
 )
 async def check_status(id: str):
     try:
-        status = EnrollmentService().get_status_enrollment(id)
+        status_enrollment = EnrollmentService().get_status_enrollment(id)
         message = {"message":"Inscrição pendente"}
-        if status:
+        if status_enrollment:
             message['message'] = 'Inscrição aprovada'
     except Exception as e:
         raise HTTPException(
