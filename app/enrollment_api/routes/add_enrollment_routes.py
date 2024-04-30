@@ -4,6 +4,7 @@ from app.enrollment_api.error_messages import ErrorMessageBadRequest
 from app.enrollment_api.exceptions import InvalidAge, InvalidCPF
 from app.enrollment_api.routes import router
 from app.enrollment_api.schemas import EnrollmentSchema
+from app.enrollment_api.utils import validate_age, validate_cpf
 
 @router.post(
     "/",
@@ -18,7 +19,8 @@ from app.enrollment_api.schemas import EnrollmentSchema
                         {
                             "message": "Sua solicitação de inscrição foi confirmada,"
                                        "para checar o status da solicitação,"
-                                       "voce pode consultar pelo ID: 1234"
+                                       "voce pode consultar pelo ID: 1234",
+                            "id": "1234"
                         }
                 }
             },
@@ -31,16 +33,20 @@ async def create_item(enrollment: EnrollmentSchema):
     e chamar a task responsável pela criação no banco de dados.
     """
     try:
-        enrollment_dict = enrollment.dict(exclude_unset=True)
+        enrollment_dict = enrollment.model_dump(exclude_unset=True)
+        if not validate_cpf(enrollment_dict.get('cpf')):
+            raise InvalidCPF("CPF inválido")
+        validate_age(enrollment_dict.get('age'))
         task_id = add_enrollment_task.apply_async(queue='enrollment-queue', args=[enrollment_dict]).id
         task_message = {
-            "message":"Sua solicitação de inscrição foi confirmada," 
+            "message": "Sua solicitação de inscrição foi confirmada," 
                       "para checar o status da solicitação,"
-                      f"voce pode consultar pelo ID: {task_id}" 
+                      f"voce pode consultar pelo ID: {task_id}",
+            "id": task_id
         }
     except (Exception, InvalidAge, InvalidCPF) as e:
         raise HTTPException(
-            status.HTTP_400_BAD_REQUEST,
-            str(e)
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e)
         )
     return task_message
