@@ -22,6 +22,11 @@ from app.apis.enrollment_api.service import EnrollmentService
     }
 )
 async def check_status(id: str):
+    """
+    Este route é responsável por retornar o status da inscrição para o usuário
+
+    :params id: ID da task criada.
+    """
     try:
         status_enrollment = EnrollmentService().get_status_enrollment(id)
         message = {"message":"Inscrição pendente"}

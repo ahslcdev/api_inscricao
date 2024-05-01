@@ -26,16 +26,12 @@ class EnrollmentService(ServiceMixin):
     
     def delete_by_id(self, id: int):
         ...
-        # return super().delete_by_id(id)
     
     def get_by_query(self, query):
         ...
-        # return super().get_by_query(query)
 
     def get_instances(self):
         ...
-        # return super().get_instances()
 
     def get_by_id(self, id: int):
         ...
-        # return super().get_by_id(id)

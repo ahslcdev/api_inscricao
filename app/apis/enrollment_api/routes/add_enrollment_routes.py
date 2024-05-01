@@ -31,6 +31,8 @@ async def create_item(enrollment: EnrollmentSchema):
     """
     Este route é responsável por receber os dados da inscrição
     e chamar a task responsável pela criação no banco de dados.
+
+    :params enrollment: é o objeto que se deseja inserir o banco de dados
     """
     try:
         enrollment_dict = enrollment.model_dump(exclude_unset=True)

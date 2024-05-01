@@ -8,6 +8,9 @@ from app.apis.enrollment_api.utils import validate_age, validate_cpf
 db = TinyDBInstance(name_db='db.json')
 
 def test_validate_cpf():
+    """
+    Testa a função que valida CPF
+    """
     cpf_success = '61391989090'
     cpf_len_error = '123'
     cpf_error = '12345678912'
@@ -20,12 +23,18 @@ def test_validate_cpf():
 
 
 def test_valid_age_less_than_zero(clear_db):
+    """
+    Testa a função que valida idade igual ou menor que 0
+    """
     with pytest.raises(InvalidAge) as e: 
         validate_age(0)
     assert str(e.value) == 'Idade não pode ser menor que 0'
 
 
 def test_valid_age_not_in_db(clear_db):
+    """
+    Testa a função que valida idade que não está cadastrada no BD
+    """
     with pytest.raises(InvalidAge) as e: 
         validate_age(150)
     assert str(e.value) == 'Esta idade não está disponível.'
