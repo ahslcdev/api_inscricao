@@ -1,5 +1,3 @@
-Este projeto é parte de um desafio de desenvolvimento e visa implementar uma aplicação utilizando diversas tecnologias e práticas de desenvolvimento.
-
 ## Tecnologias Utilizadas
 
 - Python
@@ -17,11 +15,13 @@ O projeto foi dividido em 2 apis, cada uma com as suas funcionalidades.
 - Adicionar novo grupo de idades
 - Deletar um grupo de idades
 - Visualizar grupos de idades
+
 Para esta API, todos os endpoints deveriam exigir autenticação básica proveniente de um arquivo estático que encontra-se no diretorio app/apis/age_api/credentials.json.
 
 ### API de Inscrição
 - Solicitar inscrição
 - Checar o status da inscrição
+
 Ademais, para desenvolver as funcionalidades desta API, era obrigatório utilizar algum serviço de filas e que para processar a inscrição do cliente, deveria ter um tempo mínimo de 2 segundos.
 
 ## Como Rodar o Projeto e os Testes
@@ -36,3 +36,7 @@ Agora é possível acessar as APIs nos seguintes endereços
 - API de Idades `http://localhost:8000/docs`
 - API de Inscrição `http://localhost:8080/docs`
 - Celery Flower `http://localhost:5556`
+
+## Informações adicionais
+- O RabbitMQ foi utilizado como broker do projeto e o Redis foi utilizado para armazenar os resultados, porém é possível colocar o Redis como broker, basta apenas informa na váriavel de ambiente a sua URL.
+- A escolha do TinyDB se deu pela simplicidade em utiliza-lo
