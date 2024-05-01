@@ -30,7 +30,7 @@ Ademais, para desenvolver as funcionalidades desta API, era obrigatório utiliza
 2. Clone este repositório: `git clone https://github.com/ahslcdev/api_inscricao`
 3. Navegue até o diretório do projeto: `cd api_inscricao`
 4. Construa a imagem do Docker e inicie os serviços: `docker compose up -d --build`
-5. Execue os testes: `docker run enrollment_api pytest` / `docker run age_api pytest`
+5. Execue os testes: `docker-compose run enrollment_api python -m pytest` / `docker-compose run age_api python -m pytest`
 
 Agora é possível acessar as APIs nos seguintes endereços
 - API de Idades `http://localhost:8000/docs`

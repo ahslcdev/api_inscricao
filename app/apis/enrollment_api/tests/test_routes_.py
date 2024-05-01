@@ -8,8 +8,6 @@ from app.apis.enrollment_api.exceptions import InvalidCPF
 from app.apis.enrollment_api.main import app
 
 from app.database.tinydb import TinyDBInstance
-from app.tests.utils import replace_to_exception  
-from app.tests.fixtures import clear_db, celery_app
 db = TinyDBInstance(name_db='db.json')
 
 client = TestClient(app)
@@ -32,7 +30,6 @@ def test_add_enrollment_failure_cpf(clear_db, celery_app):
     assert response.status_code == 400
 
 
-@pytest.mark.celery(result_backend='redis://')
 def test_check_status_enrollment_success(clear_db, celery_app):
     db.get_or_create_table('age_groups').insert({"min_age":10, "max_age":20})
     response = client.post(

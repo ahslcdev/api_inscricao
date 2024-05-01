@@ -1,6 +1,5 @@
 import pytest
 from app.apis.enrollment_api.exceptions import InvalidAge
-from app.tests.fixtures import clear_db
 from app.apis.enrollment_api.schemas import EnrollmentSchema
 from app.database.tinydb import TinyDBInstance
 

@@ -3,7 +3,7 @@ import json
 
 from fastapi.testclient import TestClient
 
-from conftest import replace_to_exception
+from app.conftest import replace_to_exception
 from app.apis.age_api.main import app
 from app.database.tinydb import TinyDBInstance
 
