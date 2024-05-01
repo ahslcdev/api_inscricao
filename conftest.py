@@ -23,3 +23,6 @@ def basic_auth_credentials():
 def celery_app(request):
     celery.conf.update(CELERY_ALWAYS_EAGER=True)
     return celery
+
+def replace_to_exception(*args, **kwargs):
+    raise Exception()

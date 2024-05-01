@@ -1,12 +1,12 @@
-from fastapi import APIRouter, FastAPI, Request
-from app.apis.age_api.service import AgeGroupService
-from app.tests.fixtures import *
+import pytest
 import json
-from fastapi.testclient import TestClient
-from app.apis.age_api.main import app
 
+from fastapi.testclient import TestClient
+
+from conftest import replace_to_exception
+from app.apis.age_api.main import app
 from app.database.tinydb import TinyDBInstance
-from app.tests.utils import replace_to_exception  
+
 db = TinyDBInstance(name_db='db.json')
 
 client = TestClient(app)

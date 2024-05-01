@@ -1,4 +1,4 @@
-from app.tests.fixtures import clear_db
+# from app.tests.fixtures import clear_db
 from app.apis.age_api.schemas import AgeGroup
 from app.database.tinydb import TinyDBInstance
 
