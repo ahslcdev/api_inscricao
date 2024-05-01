@@ -5,6 +5,11 @@ from app.apis.age_api.main import app
 client = TestClient(app)
 
 def test_check_credentials():
+    """"
+    Este teste é utilizado para testar o EXCEPTION da dependencia check_credentials,
+    os casos de sucesso não foram inseridos pois já são devidamente testados
+    nas chamadas HTTP realizadas nos testes de routes.
+    """
     usuario = "admin"
     senha = "wrong_password"
     usuario_senha = f"{usuario}:{senha}"

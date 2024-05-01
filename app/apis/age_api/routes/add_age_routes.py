@@ -25,6 +25,8 @@ async def add_age_group(age: AgeGroup,
     """
     Este route é responsável por validar os dados da idade e por chamar
     o service que irá fazer o insert no banco de dados.
+
+    :params age: É o objeto de idades que se deseja inserir o banco de dados.
     """
     try:
         service = AgeGroupService()

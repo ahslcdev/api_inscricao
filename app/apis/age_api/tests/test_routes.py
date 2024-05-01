@@ -80,6 +80,9 @@ def test_add_age_group_failure(clear_db, basic_auth_credentials):
 
 
 def test_list_age_group_success(clear_db, basic_auth_credentials):
+    """
+    Este teste verifica o caso de sucesso ao listar os grupos de idades.
+    """
     response = client.get(
         "group-age/",
         headers={"Authorization": f"Basic {basic_auth_credentials}"}
@@ -89,6 +92,9 @@ def test_list_age_group_success(clear_db, basic_auth_credentials):
 
 
 def test_retrieve_age_group_success(clear_db, basic_auth_credentials):
+    """
+    Este teste verifica o caso de sucesso ao listar um grupo de idades específico.
+    """
     response = client.post(
         "group-age/",
         content=json.dumps({"min_age":1500, "max_age":2000}),
@@ -105,6 +111,10 @@ def test_retrieve_age_group_success(clear_db, basic_auth_credentials):
 
 def test_retrieve_age_group_failure(monkeypatch: pytest.MonkeyPatch,
                                     clear_db, basic_auth_credentials):
+    """
+    Este teste verifica que não é possível acessar um grupo de idade com ID
+    inexistentes e também é testado o Exception do route através de um mock
+    """
     response = client.post(
         "group-age/",
         content=json.dumps({"min_age":1600, "max_age":2000}),
@@ -129,6 +139,9 @@ def test_retrieve_age_group_failure(monkeypatch: pytest.MonkeyPatch,
 
 
 def test_list_age_group_failure(monkeypatch: pytest.MonkeyPatch, basic_auth_credentials):
+    """
+    Este teste é apenas para testar o Exception do route através de um mock
+    """
     monkeypatch.setattr("app.apis.age_api.service.AgeGroupService.get_instances", replace_to_exception)
     
     response = client.get(
@@ -140,6 +153,9 @@ def test_list_age_group_failure(monkeypatch: pytest.MonkeyPatch, basic_auth_cred
 
 
 def test_delete_age_group_success(clear_db, basic_auth_credentials):
+    """
+    Este teste serve para testar o route de DELETE
+    """
     response = client.post(
         "group-age/",
         content=json.dumps({"min_age":1500, "max_age":2000}),
@@ -156,6 +172,10 @@ def test_delete_age_group_success(clear_db, basic_auth_credentials):
 
 def test_delete_age_group_failure(monkeypatch: pytest.MonkeyPatch,
                                     clear_db, basic_auth_credentials):
+    """
+    Este teste verifica que não é possível deletar um grupo de idade com ID
+    inexistentes e também é testado o Exception do route através de um mock
+    """
     response = client.post(
         "group-age/",
         content=json.dumps({"min_age":1600, "max_age":2000}),
