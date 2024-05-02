@@ -17,8 +17,8 @@ from app.apis.enrollment_api.utils import validate_age, validate_cpf
                 "application/json": {
                     "example": 
                         {
-                            "message": "Sua solicitação de inscrição foi confirmada,"
-                                       "para checar o status da solicitação,"
+                            "message": "Sua solicitação de inscrição foi confirmada, "
+                                       "para checar o status da solicitação, "
                                        "voce pode consultar pelo ID: 1234",
                             "id": "1234"
                         }
@@ -41,8 +41,8 @@ async def create_item(enrollment: EnrollmentSchema):
         validate_age(enrollment_dict.get('age'))
         task_id = add_enrollment_task.apply_async(queue='enrollment-queue', args=[enrollment_dict]).id
         task_message = {
-            "message": "Sua solicitação de inscrição foi confirmada," 
-                      "para checar o status da solicitação,"
+            "message": "Sua solicitação de inscrição foi confirmada, " 
+                      "para checar o status da solicitação, "
                       f"voce pode consultar pelo ID: {task_id}",
             "id": task_id
         }
